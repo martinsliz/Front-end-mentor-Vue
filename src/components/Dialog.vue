@@ -3,11 +3,21 @@
   <!-- Make sure the overlay covers everything -->
   <!-- We need a container for the little window -->
   <div class="overlay">
-    <div class="container">This is the container</div>
+    <div class="container">
+      <Cart :order="order" status="CHECKOUT" @openModal="handleDialog" />
+    </div>
   </div>
 </template>
 
-<script></script>
+<script setup>
+import Cart from "./Cart.vue";
+const props = defineProps(["order"]);
+
+const emit = defineEmits(["openModal"]);
+const handleDialog = () => {
+  emit("openModal");
+};
+</script>
 
 <style scoped>
 .overlay {

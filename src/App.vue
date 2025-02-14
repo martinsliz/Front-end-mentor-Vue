@@ -8,6 +8,14 @@ import { ref } from "vue";
 
 const order = ref([]);
 
+// This is going to be used to show and hide the dialog modal
+const showDialog = ref(false);
+
+const handleDialog = () => {
+  console.log("Received openModal event");
+  showDialog.value = !showDialog.value;
+};
+
 const handleCart = (payload) => {
   // Look if the item is already in the cart
   const alreadyInCart = order.value.findIndex((item) => {
@@ -27,7 +35,7 @@ const handleCart = (payload) => {
 
 <template>
   <main>
-    <Cart :order="order" />
+    <Cart :order="order" status="PENDING" @openModal="handleDialog" />
 
     <h1>Desserts</h1>
 
@@ -40,7 +48,7 @@ const handleCart = (payload) => {
       @uptCartEvent="handleCart"
     />
   </main>
-  <Dialog />
+  <Dialog v-if="showDialog" :order="order" @openModal="handleDialog" />
 </template>
 
 <style scoped>

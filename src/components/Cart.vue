@@ -20,14 +20,27 @@
       <h2>${{ totalCost() }}</h2>
     </div>
 
-    <button class="confirm-order">Confirm Order</button>
+    <button
+      class="confirm-order"
+      @click="handleEmit"
+      v-if="status === 'PENDING'"
+    >
+      Confirm Order
+    </button>
+    <button
+      v-if="status === 'CHECKOUT'"
+      class="confirm-order"
+      @click="handleEmit"
+    >
+      Start New Order
+    </button>
   </div>
 </template>
 
 <script setup>
 import { computed } from "vue";
 
-const props = defineProps(["order"]);
+const props = defineProps(["order", "status"]);
 
 // For future... remember this might become a computed
 const totalItems = () => {
@@ -48,6 +61,13 @@ const totalCost = () => {
   }
 
   return total.toFixed(2);
+};
+
+// We need to define the "openModal" emitter
+const emit = defineEmits(["openModal"]);
+const handleEmit = () => {
+  console.log("Confirm order clicked");
+  emit("openModal");
 };
 </script>
 
