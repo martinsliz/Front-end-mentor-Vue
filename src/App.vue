@@ -7,13 +7,18 @@ import jsonDataArray from "../public/data.json";
 import { ref } from "vue";
 
 const order = ref([]);
-
-// This is going to be used to show and hide the dialog modal
 const showDialog = ref(false);
 
 const handleDialog = () => {
   console.log("Received openModal event");
   showDialog.value = !showDialog.value;
+};
+
+const handleReset = () => {
+  // How do we reset the order???
+  order.value = [];
+  // How do we close the modal???
+  showDialog.value = false;
 };
 
 const handleCart = (payload) => {
@@ -35,7 +40,12 @@ const handleCart = (payload) => {
 
 <template>
   <main>
-    <Cart :order="order" status="PENDING" @openModal="handleDialog" />
+    <Cart
+      :order="order"
+      status="PENDING"
+      @openModal="handleDialog"
+      @resetOrder="handleReset"
+    />
 
     <h1>Desserts</h1>
 
@@ -48,7 +58,14 @@ const handleCart = (payload) => {
       @uptCartEvent="handleCart"
     />
   </main>
-  <Dialog v-if="showDialog" :order="order" @openModal="handleDialog" />
+  <Dialog v-if="showDialog">
+    <Cart
+      :order="order"
+      status="CHECKOUT"
+      @openModal="handleDialog"
+      @resetOrder="handleReset"
+    />
+  </Dialog>
 </template>
 
 <style scoped>

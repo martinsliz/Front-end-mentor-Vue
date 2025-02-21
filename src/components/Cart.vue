@@ -22,7 +22,7 @@
 
     <button
       class="confirm-order"
-      @click="handleEmit"
+      @click="handleOpenEmit"
       v-if="status === 'PENDING'"
     >
       Confirm Order
@@ -30,7 +30,7 @@
     <button
       v-if="status === 'CHECKOUT'"
       class="confirm-order"
-      @click="handleEmit"
+      @click="handleResetEmit"
     >
       Start New Order
     </button>
@@ -64,10 +64,15 @@ const totalCost = () => {
 };
 
 // We need to define the "openModal" emitter
-const emit = defineEmits(["openModal"]);
-const handleEmit = () => {
+const emit = defineEmits(["openModal", "resetOrder"]);
+const handleOpenEmit = () => {
   console.log("Confirm order clicked");
   emit("openModal");
+};
+
+const handleResetEmit = () => {
+  console.log("Reset order clicked");
+  emit("resetOrder");
 };
 </script>
 
