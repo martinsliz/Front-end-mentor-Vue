@@ -2,7 +2,14 @@
   <div class="image-container">
     <img class="product-image" :src="props.image" alt="Waffle image" />
 
-    <button @click="dummyFunction" class="add-to-cart">Add to Cart</button>
+    <button
+      @click="dummyFunction"
+      class="add-to-cart"
+      :class="{ 'add-to-cart-active': props.quantity > 0 }"
+    >
+      <span v-if="props.quantity === 0">Add to Cart</span>
+      <span v-else>{{ props.quantity }}</span>
+    </button>
   </div>
   <p class="category">{{ props.category }}</p>
   <p class="name">{{ props.name }}</p>
@@ -13,7 +20,7 @@
 // We need to make this component aware
 // of the existance of props being passed down
 
-const props = defineProps(["name", "price", "category", "image"]);
+const props = defineProps(["name", "price", "category", "image", "quantity"]);
 const emit = defineEmits(["uptCartEvent"]);
 
 const dummyFunction = () => {
@@ -38,13 +45,19 @@ const dummyFunction = () => {
     z-index: -1;
   }
 
-  .add-to-card {
+  .add-to-cart {
     width: 160px;
     height: 40px;
     border-radius: 20px;
     background-color: white;
     border: 1px solid gray;
     margin-top: -20px;
+  }
+
+  .add-to-cart-active {
+    background-color: #c73b0f;
+    color: white;
+    border: none;
   }
 }
 

@@ -36,6 +36,19 @@ const handleCart = (payload) => {
     order.value.push(payload);
   }
 };
+
+const getQuantity = (prodItem) => {
+  // Look up item
+  // check if it exists in the order.value
+  // if so, return the quantity
+  // if not return 0
+
+  const found = order.value.find(
+    (orderItem) => orderItem.name === prodItem.name
+  );
+
+  return found?.quantity || 0;
+};
 </script>
 
 <template>
@@ -50,11 +63,12 @@ const handleCart = (payload) => {
     <h1>Desserts</h1>
 
     <Product
-      v-for="tempProduct in jsonDataArray"
-      :name="tempProduct.name"
-      :price="tempProduct.price"
-      :category="tempProduct.category"
-      :image="tempProduct.image.mobile"
+      v-for="prodItem in jsonDataArray"
+      :name="prodItem.name"
+      :price="prodItem.price"
+      :category="prodItem.category"
+      :image="prodItem.image.mobile"
+      :quantity="getQuantity(prodItem)"
       @uptCartEvent="handleCart"
     />
   </main>
